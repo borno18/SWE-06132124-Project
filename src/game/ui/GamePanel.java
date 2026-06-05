@@ -20,11 +20,13 @@ import java.util.Random;
 public class GamePanel extends JPanel implements ActionListener {
     private static final int WIDTH = 400;
     private static final int HEIGHT = 400;
+    private static final int SPAWN_DELAY = 60;
 
     private final Player player;
     private final List<Entity> entities;
     private final Random random;
     private int score;
+    private int spawnCounter;
 
     public GamePanel() {
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -37,6 +39,7 @@ public class GamePanel extends JPanel implements ActionListener {
 
         random = new Random();
         score = 0;
+        spawnCounter = 0;
 
         setupKeyBindings();
 
@@ -80,16 +83,19 @@ public class GamePanel extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
-        }
-
         List<Entity> itemsToRemove = new ArrayList<>();
+
+        spawnCounter++;
+        if (spawnCounter >= SPAWN_DELAY) {
+            int x = random.nextInt(WIDTH - 15);
+            entities.add(new Collectible(x, 0));
+            spawnCounter = 0;
+        }
 
         for (Entity entity : entities) {
             entity.update();
 
             if (entity instanceof Collectible collectible) {
-
                 if (collectible.getBounds().intersects(player.getBounds())) {
                     score += 10;
                     itemsToRemove.add(collectible);
