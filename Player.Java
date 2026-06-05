@@ -5,7 +5,7 @@ import java.awt.Graphics;
 public class Player extends Entity {
     private int velocityX;
     private static final int SPEED = 5;
-    private static final int BOUNDARY_WIDTH = 400; // Screen width limit
+    private static final int BOUNDARY_WIDTH = 400;
     public Player(int x, int y) {
         super(x, y, 60, 15);
         this.velocityX = 0;
